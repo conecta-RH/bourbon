@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bourbon - Trabalhe Conosco</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        :root {
+            --dourado: #C4A747;
+            --escuro: #1E1E1E;
+            --cinza: #F5F5F5;
+            --borda: #DDD;
+        }
+
+        body {
+            background: var(--cinza);
+        }
+
+        /* Header simples */
+        .header {
+            background: var(--escuro);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--dourado);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: var(--dourado);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Cards de métricas */
+        .metricas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metrica-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--dourado);
+        }
+
+        .metrica-valor {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--escuro);
+        }
+
+        .metrica-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Grid principal */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2rem;
+        }
+
+        /* Card de formulário */
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            color: var(--escuro);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--dourado);
+        }
+
+        /* Upload área */
+        .upload-area {
+            border: 2px dashed var(--dourado);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            background: #FFF9E6;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-area i {
+            font-size: 2.5rem;
+            color: var(--dourado);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-area p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Formulário */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: #333;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--borda);
+            border-radius: 5px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--dourado);
+        }
+
+        .btn {
+            background: var(--escuro);
+            color: white;
+            border: none;
+            padding: 1rem;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--dourado);
+            color: var(--escuro);
+        }
+
+        .btn-dourado {
+            background: var(--dourado);
+            color: var(--escuro);
+            margin-top: 0.5rem;
+        }
+
+        .btn-dourado:hover {
+            background: #B3943A;
+        }
+
+        /* Info arquivo */
+        .info-arquivo {
+            background: #FFF9E6;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--dourado);
+            display: none;
+        }
+
+        .info-arquivo.mostrar {
+            display: block;
+        }
+
+        /* Lista de candidatos */
+        .filtros {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .filtros input,
+        .filtros select {
+            padding: 0.5rem;
+            border: 1px solid var(--borda);
+            border-radius: 5px;
+        }
+
+        .filtros input {
+            flex: 1;
+        }
+
+        .candidato-item {
+            background: #FAFAFA;
+            border-left: 4px solid var(--dourado);
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .candidato-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .candidato-info p {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .status {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .status.classificado {
+            background: #DFF0D8;
+            color: #3C763D;
+        }
+
+        .status.nao-classificado {
+            background: #F2DEDE;
+            color: #A94442;
+        }
+
+        .acoes {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .acao-btn {
+            background: none;
+            border: 1px solid var(--borda);
+            width: 35px;
+            height: 35px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .acao-btn:hover {
+            background: var(--dourado);
+            color: white;
+            border-color: var(--dourado);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.mostrar {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--dourado);
+            padding-bottom: 0.5rem;
+        }
+
+        .fechar {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--escuro);
+            color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            border-left: 4px solid var(--dourado);
+            transform: translateX(400px);
+            transition: 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.mostrar {
+            transform: translateX(0);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--escuro);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .metricas {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            BOURBON <span>HOSPITALITY</span>
+        </div>
+        <div>
+            <i class="fas fa-user-circle" style="font-size: 2rem; color: var(--dourado);"></i>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Métricas -->
+        <div class="metricas">
+            <div class="metrica-card">
+                <div class="metrica-valor" id="totalCandidatos">0</div>
+                <div class="metrica-label">Total de Candidatos</div>
+            </div>
+            <div class="metrica-card">
+                <div class="metrica-valor" id="totalClassificados">0</div>
+                <div class="metrica-label">Classificados</div>
+            </div>
+            <div class="metrica-card">
+                <div class="metrica-valor" id="tempoMedio">2.4d</div>
+                <div class="metrica-label">Tempo de Resposta</div>
+            </div>
+        </div>
+
+        <!-- Grid Principal -->
+        <div class="grid">
+            <!-- Coluna Esquerda - Upload -->
+            <div>
+                <div class="card">
+                    <h3><i class="fas fa-upload" style="color: var(--dourado);"></i> Enviar Currículo</h3>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Clique ou arraste o currículo</p>
+                        <p style="font-size: 0.8rem;">PDF, DOC até 10MB</p>
+                        <input type="file" id="fileInput" accept=".pdf,.doc,.docx" style="display: none;">
+                    </div>
+
+                    <div class="info-arquivo" id="infoArquivo">
+                        <p><strong>Arquivo:</strong> <span id="nomeArquivo">-</span></p>
+                        <p><strong>Tamanho:</strong> <span id="tamanhoArquivo">-</span></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nome Completo *</label>
+                        <input type="text" id="nome" placeholder="Digite seu nome">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="email" placeholder="seu@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input type="tel" id="telefone" placeholder="(11) 99999-9999">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Área de Interesse</label>
+                        <select id="vaga">
+                            <option value="">Selecione...</option>
+                            <option value="Hotelaria">Hotelaria</option>
+                            <option value="Gastronomia">Gastronomia</option>
+                            <option value="Eventos">Eventos</option>
+                            <option value="Governança">Governança</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Experiência (anos)</label>
+                        <input type="number" id="experiencia" min="0">
+                    </div>
+
+                    <button class="btn" onclick="adicionarCandidato()">
+                        <i class="fas fa-save"></i> Salvar Candidato
+                    </button>
+                    <button class="btn btn-dourado" onclick="limparFormulario()">
+                        <i class="fas fa-eraser"></i> Limpar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Coluna Direita - Lista -->
+            <div>
+                <div class="card">
+                    <h3><i class="fas fa-list" style="color: var(--dourado);"></i> Candidatos</h3>
+                    
+                    <div class="filtros">
+                        <input type="text" id="busca" placeholder="Buscar candidato..." onkeyup="filtrarCandidatos()">
+                        <select id="filtroStatus" onchange="filtrarCandidatos()">
+                            <option value="todos">Todos</option>
+                            <option value="classificado">Classificados</option>
+                            <option value="nao-classificado">Não Classificados</option>
+                        </select>
+                    </div>
+
+                    <div id="listaCandidatos">
+                        <!-- Lista será preenchida aqui -->
+                    </div>
+
+                    <button class="btn btn-dourado" style="margin-top: 1rem;" onclick="mostrarModalEmail()">
+                        <i class="fas fa-envelope"></i> Enviar Convite
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Email -->
+    <div class="modal" id="emailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-envelope" style="color: var(--dourado);"></i> Enviar Convite</h3>
+                <button class="fechar" onclick="fecharModal()">&times;</button>
+            </div>
+
+            <div class="form-group">
+                <label>Selecionar Candidato</label>
+                <select id="selectCandidato" class="form-control">
+                    <option value="">Selecione...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Assunto</label>
+                <input type="text" id="assuntoEmail" value="Convite para Entrevista - Bourbon">
+            </div>
+
+            <div class="form-group">
+                <label>Mensagem</label>
+                <textarea id="mensagemEmail" rows="5">Olá [NOME],
+
+Parabéns! Você foi selecionado para entrevista na Bourbon.
+
+Data: 25/03 às 14h
+Local: Av. Paulista, 1000
+
+Confirme sua presença.
+
+Atenciosamente,
+RH Bourbon</textarea>
+            </div>
+
+            <button class="btn" onclick="enviarConvite()">
+                <i class="fas fa-paper-plane"></i> Enviar
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle" style="color: var(--dourado); margin-right: 0.5rem;"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2024 BOURBON HOSPITALITY - Todos os direitos reservados</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Trabalhe Conosco - RH Simplificado</p>
+    </div>
+
+    <script>
+        // Dados
+        let candidatos = [];
+        if (localStorage.getItem('bourbon_candidatos')) {
+            candidatos = JSON.parse(localStorage.getItem('bourbon_candidatos'));
+        }
+
+        // Elementos
+        const listaCandidatos = document.getElementById('listaCandidatos');
+        const totalCandidatos = document.getElementById('totalCandidatos');
+        const totalClassificados = document.getElementById('totalClassificados');
+        const tempoMedio = document.getElementById('tempoMedio');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const infoArquivo = document.getElementById('infoArquivo');
+        const nomeArquivo = document.getElementById('nomeArquivo');
+        const tamanhoArquivo = document.getElementById('tamanhoArquivo');
+
+        let arquivoSelecionado = null;
+
+        // Upload
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = '#FAF0D7';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.background = '#FFF9E6';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = '#FFF9E6';
+            const file = e.dataTransfer.files[0];
+            if (file) processarArquivo(file);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) processarArquivo(file);
+        });
+
+        function processarArquivo(file) {
+            if (file.size > 10 * 1024 * 1024) {
+                mostrarToast('Arquivo muito grande!', 'error');
+                return;
+            }
+
+            arquivoSelecionado = file;
+            nomeArquivo.textContent = file.name;
+            tamanhoArquivo.textContent = (file.size / 1024).toFixed(2) + ' KB';
+            infoArquivo.classList.add('mostrar');
+            mostrarToast('Currículo carregado!');
+        }
+
+        function adicionarCandidato() {
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const vaga = document.getElementById('vaga').value;
+
+            if (!nome || !email) {
+                mostrarToast('Nome e email são obrigatórios!', 'error');
+                return;
+            }
+
+            const novo = {
+                id: Date.now(),
+                nome: nome,
+                email: email,
+                telefone: document.getElementById('telefone').value,
+                vaga: vaga || 'Não especificada',
+                experiencia: document.getElementById('experiencia').value || 0,
+                status: 'classificado',
+                avatar: nome.charAt(0).toUpperCase()
+            };
+
+            candidatos.push(novo);
+            salvarDados();
+            renderizarCandidatos();
+            atualizarMetricas();
+            limparFormulario();
+            mostrarToast('Candidato cadastrado!');
+        }
+
+        function renderizarCandidatos() {
+            const busca = document.getElementById('busca')?.value.toLowerCase() || '';
+            const filtro = document.getElementById('filtroStatus')?.value || 'todos';
+
+            const filtrados = candidatos.filter(c => {
+                const matchBusca = c.nome.toLowerCase().includes(busca) || c.email.includes(busca);
+                const matchStatus = filtro === 'todos' || c.status === filtro;
+                return matchBusca && matchStatus;
+            });
+
+            if (filtrados.length === 0) {
+                listaCandidatos.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">Nenhum candidato encontrado</p>';
+                return;
+            }
+
+            listaCandidatos.innerHTML = filtrados.map(c => `
+                <div class="candidato-item">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="background: var(--dourado); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;">
+                            ${c.avatar}
+                        </div>
+                        <div class="candidato-info">
+                            <h4>${c.nome}</h4>
+                            <p>${c.vaga} • ${c.experiencia} anos</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span class="status ${c.status}">
+                            ${c.status === 'classificado' ? '✅' : '❌'} ${c.status}
+                        </span>
+                        <div class="acoes">
+                            <button class="acao-btn" onclick="classificarCandidato(${c.id}, true)" title="Classificar">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="acao-btn" onclick="classificarCandidato(${c.id}, false)" title="Não Classificar">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <button class="acao-btn" onclick="enviarEmailCandidato(${c.id})" title="Enviar Email">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                            <button class="acao-btn" onclick="removerCandidato(${c.id})" title="Remover">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function classificarCandidato(id, status) {
+            const candidato = candidatos.find(c => c.id === id);
+            if (candidato) {
+                candidato.status = status ? 'classificado' : 'nao-classificado';
+                salvarDados();
+                renderizarCandidatos();
+                atualizarMetricas();
+                mostrarToast(`${candidato.nome} ${status ? 'classificado' : 'não classificado'}`);
+            }
+        }
+
+        function removerCandidato(id) {
+            if (confirm('Remover este candidato?')) {
+                candidatos = candidatos.filter(c => c.id !== id);
+                salvarDados();
+                renderizarCandidatos();
+                atualizarMetricas();
+                mostrarToast('Candidato removido!');
+            }
+        }
+
+        function limparFormulario() {
+            document.getElementById('nome').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('telefone').value = '';
+            document.getElementById('experiencia').value = '';
+            document.getElementById('vaga').value = '';
+            infoArquivo.classList.remove('mostrar');
+            arquivoSelecionado = null;
+        }
+
+        function filtrarCandidatos() {
+            renderizarCandidatos();
+        }
+
+        function atualizarMetricas() {
+            totalCandidatos.textContent = candidatos.length;
+            totalClassificados.textContent = candidatos.filter(c => c.status === 'classificado').length;
+            
+            const tempos = ['1.2d', '2.4d', '1.8d'];
+            tempoMedio.textContent = tempos[Math.floor(Math.random() * tempos.length)];
+        }
+
+        function salvarDados() {
+            localStorage.setItem('bourbon_candidatos', JSON.stringify(candidatos));
+        }
+
+        // Modal
+        function mostrarModalEmail() {
+            atualizarSelectCandidatos();
+            document.getElementById('emailModal').classList.add('mostrar');
+        }
+
+        function fecharModal() {
+            document.getElementById('emailModal').classList.remove('mostrar');
+        }
+
+        function atualizarSelectCandidatos() {
+            const select = document.getElementById('selectCandidato');
+            const classificados = candidatos.filter(c => c.status === 'classificado');
+            
+            select.innerHTML = '<option value="">Selecione...</option>' +
+                classificados.map(c => `<option value="${c.id}">${c.nome} - ${c.vaga}</option>`).join('');
+        }
+
+        function enviarEmailCandidato(id) {
+            const candidato = candidatos.find(c => c.id === id);
+            if (candidato) {
+                document.getElementById('selectCandidato').value = id;
+                mostrarModalEmail();
+            }
+        }
+
+        function enviarConvite() {
+            const id = document.getElementById('selectCandidato').value;
+            if (!id) {
+                mostrarToast('Selecione um candidato!', 'error');
+                return;
+            }
+
+            const candidato = candidatos.find(c => c.id == id);
+            mostrarToast(`Convite enviado para ${candidato.nome}!`);
+            fecharModal();
+        }
+
+        // Toast
+        function mostrarToast(msg, tipo = 'success') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.add('mostrar');
+            
+            setTimeout(() => {
+                toast.classList.remove('mostrar');
+            }, 3000);
+        }
+
+        // Máscara telefone
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            let valor = e.target.value.replace(/\D/g, '');
+            if (valor.length > 11) valor = valor.slice(0, 11);
+            
+            if (valor.length > 6) {
+                valor = valor.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            } else if (valor.length > 2) {
+                valor = valor.replace(/(\d{2})(\d{1,4})/, '($1) $2');
+            }
+            
+            e.target.value = valor;
+        });
+
+        // Inicialização
+        function inicializar() {
+            if (candidatos.length === 0) {
+                candidatos.push({
+                    id: 1,
+                    nome: 'Ana Santos',
+                    email: 'ana@email.com',
+                    telefone: '(11) 98765-4321',
+                    vaga: 'Hotelaria',
+                    experiencia: 4,
+                    status: 'classificado',
+                    avatar: 'A'
+                });
+                candidatos.push({
+                    id: 2,
+                    nome: 'Carlos Lima',
+                    email: 'carlos@email.com',
+                    telefone: '(11) 91234-5678',
+                    vaga: 'Gastronomia',
+                    experiencia: 6,
+                    status: 'classificado',
+                    avatar: 'C'
+                });
+                candidatos.push({
+                    id: 3,
+                    nome: 'Mariana Costa',
+                    email: 'mariana@email.com',
+                    telefone: '(11) 99876-5432',
+                    vaga: 'Eventos',
+                    experiencia: 2,
+                    status: 'nao-classificado',
+                    avatar: 'M'
+                });
+                salvarDados();
+            }
+            
+            renderizarCandidatos();
+            atualizarMetricas();
+        }
+
+        inicializar();
+    </script>
+</body>
+</html>
